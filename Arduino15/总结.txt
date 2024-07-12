@@ -1,5 +1,31 @@
-CLI环境配置难点：
+CLI环境配置注意以及命令使用流程：
+
 1.构建文件结构（cli的文件目录结构可以直接抄IDE的结构组成）
+--Arduino15/libraries放解压好的库（这个解压好的库既可以是从外面复制过来，也可以是由Arduino15/staging/libraries中的压缩包解压所得，而这个目录中的压缩包可以手动移入也可以由命令行执行下载）
+--Arduino15/packages用于存放butin构建工具以及Arduino15/staging/pakages下解压后的开发板压缩包
+--Arduino15/sketches用于存放ino的cpp源代码，并且其子目录sketches_amend存放被修改后的cpp代码以及build（编译好的固件文件夹，烧录固件的bin用的就是这里的）
+--Arduino15/staging用于存放下载好的压缩包或者手动移入的压缩包，这些压缩包按类别存入其子文件夹libraries和packages中、
+--Arduino15/tmp用于存放编译的缓存，加速下次编译
+
 2.写yaml文件（主要是路径参数形式别写错，相对符号是以.\开头的，或者直接不写.\也行）
+--board_manager       板库索引地址（index的https下载地址/本地index文件地址）
+--directories               data键对应ArduinoIDE的Arduino15文件夹，这是存放packages以及temp还有几个index的json文件路径；downloads键对应ArduinoIDE的Arduino15文件夹下的自文件夹staging，两个文件夹子目录内容结构一样。
+--library                     8266cpp代码所使用库的本地位置/staging/libraries的压缩包解压后的库文件存放地址
+--build_cache             编译缓存存放处，加速下次编译能用上
+--sketch		  8266源代码存放文件夹
+
 3.迁移所写项目的本地文件（这个可以直接把IDEstaging下的相应压缩包直接迁移就可以了，不要迁移文件夹，没有用，因为没有登记文件信息）
-4.构建命令经常需要带上额外参数如（--config-file以及--additional-urls）
+
+4.构建命令经常带上额外参数如（--config-file以及--additional-urls），且有些命令带参数与使用--config-file差不多，建议能在--config-file写明白的不要在命令行中多带参数了。用配置文件和带参数效果一致，推荐前者，因为带参无法指定板库位置。
+
+5.整体流程
+--.\arduino-cli.exe config init --config-file arduino-cli.yaml      cli的同级目录下建立一个yaml配置文件
+--配置文件结构以及填写yaml值（参考1，2点）
+--.\arduino-cli.exe core update-index --additional-urls file:///cores/package_esp8266com_index.json  更新索引文件（如果yaml中board_manager值写好了是可以把file参数改成--configure-file的，下面也是一样，但是重复了不影响）
+--.\arduino-cli.exe core search --additional-urls file:///cores/package_esp8266com_index.json  检查是否能找到相应的包
+--.\arduino-cli.exe core install esp8266:esp8266 --additional-urls file:///cores/package_esp8266com_index.json  --config-file arduino-cli.yaml     从这个指定的本地index文件中找到esp8266:eps8266的板库包，以及编译工具包并且下载，且下载文件放置按arduino-cli.yaml指示的去放置
+--.\arduino-cli.exe board listall --config-file arduino-cli.yaml 检查是否安装好板库以及对应的编译包
+--.\arduino-cli.exe compile --fqbn esp8266:esp8266:nodemcuv2   --config-file .\arduino-cli.yaml 编译文件并且把输出文件放在yaml指定的目录
+--.\arduino-cli.exe upload --fqbn esp8266:esp8266:nodemcuv2 --input-dir 编译输出文件所在的文件地址 -p 烧录端口   --config-file .\arduino-cli.yaml 
+
+PS：第五步可以自己手动把IDE中Arduino15/packages的相应压缩包移过来这样可以避免从网络上下载浪费时间

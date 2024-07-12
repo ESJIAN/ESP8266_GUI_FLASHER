@@ -1,7 +1,7 @@
 board_manager:
   additional_urls:
     ./Arduino15/package_index.json #注意不是package_esp82666com_index.json两个名字相近但是意义根本不一样,带index的是用来下载的
-
+                                   #这个键值可以写几个，并且本地文件地址和网络地址可以一起写
 directories:
   data:
      ./Arduino15 #对应ArduinoIDE的Arduino15文件夹，这是存放packages以及temp还有几个index的json文件路径
@@ -9,13 +9,13 @@ directories:
      ./Arduino15/staging #对应ArduinoIDE的Arduino15文件夹下的自文件夹staging，两个文件内容结构一样。但是实际上这可以随便指定一个文件，但是为了管理方便起见
 
 library:
-  ./Arduino15/libraries #指明8266cpp代码所使用库的本地位置
+  ./Arduino15/libraries #指明8266cpp代码所使用库的本地位置/staging/libraries的压缩包解压后的库文件存放地址
 
 build_cache:
-  ./Arduino15/tmp
+  ./Arduino15/tmp  #编译缓存存放处，加速下次编译能用上
 
 sketch:
-   always_export_binaries: true    #指明编译文件与草图文件同目录
+   always_export_binaries: true    #使编译输出文件夹与草图文件同目录，名字为build
 
 
 #之所以要写这个yaml文件是因为可以在使用命令的时候减少很多额外参数的使用，减少python传参的头大
