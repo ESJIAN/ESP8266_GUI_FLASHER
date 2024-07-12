@@ -144,6 +144,7 @@ app.mainloop()
 #实现arduino cli编译和存储编译结果 Y
 #纠正arduino cli的command传递参数 Y
 #实现上传开发板Y
-#实现打印上传进度条
+#实现打印上传进度条N
+#程序体积精简N
 
 
