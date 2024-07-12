@@ -2,7 +2,6 @@ import tkinter as tk
 from tkinter import filedialog  #文件资源管理器操作相关
 from tkinter import messagebox  #操作系统信息显示相关
 from tkinter import ttk
-import os
 import subprocess  # 系统命令模块
 import serial
 from serial.tools import list_ports
