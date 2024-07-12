@@ -1,0 +1,8 @@
+带index的json都是用来指示目标包所在的网络位置或本地位置的
+
+.\arduino-cli.exe core install esp8266:esp8266 --additional-urls file:///cores/package_esp8266com_index.json  --config-file arduino-cli.yaml
+
+意思是从这个指定的json文件中找到esp8266:eps8266的板库包并且下载，且下载文件放置按arduino-cli.yaml指示的去配置
+
+其中貌似package_index.json会记录本地已经安装好的第三方库，而这个esp8266是你从网上找来的资源地图，在下载8266库的时候可以在yaml中改写additional_urls为package_esp8266com_index.json
+下完后要改成package_index.json，但是由于此处你不会在下其他的开发板库所以继续使用package_esp8266com_index.json问题也不大

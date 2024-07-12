@@ -1,0 +1,4 @@
+libraries存放着staging的子目录libraries解压的库文件
+packages存放着staging的子目录packages解压的工具以及板库文件，但是可能会自己整合后创建一个文件夹放在本packages文件目录下
+
+

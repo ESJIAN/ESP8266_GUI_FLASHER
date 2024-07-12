@@ -1,0 +1,1 @@
+原来arduino 15下的packages文件夹迁移到arduino cli工作文件夹中的cores文件，而libraries文件夹还是迁移到libraries文件夹，sketches只需要迁移ino文件即可
